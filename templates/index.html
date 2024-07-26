@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v8.2.0/ol.css">
+      <script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
+      <script src="https://unpkg.com/ol-mapbox-style@12.1.1/dist/olms.js"></script>
+
+      <style>
+        #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+      </style>
+    </head>
+    <body>
+      <div id="map">
+
+        <form method="POST" action="/">
+          <button type="submit" name="microphone" value="on">Speak</button>
+        </form>
+
+      </div>
+    <script>
+      const lat = "{{ lat }}";
+      const long = "{{ long }}";
+      const map_link = '{{map_link}}';
+      const map_center = ol.proj.fromLonLat([long, lat]);
+      const styleJson = map_link;
+
+      const attribution = new ol.control.Attribution({
+        collapsible: false,
+      });
+
+      const map = new ol.Map({
+        target: 'map',
+        controls: ol.control.defaults.defaults({attribution: false}).extend([attribution]),
+        view: new ol.View({
+          constrainResolution: true,
+          center: map_center,
+          zoom: 1
+        })
+      });
+
+      olms.apply(map, styleJson);
+
+
+    </script>
+    </body>
+  </html>
