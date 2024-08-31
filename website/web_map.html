@@ -8,6 +8,22 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
     <script src="https://unpkg.com/ol-mapbox-style@12.1.1/dist/olms.js"></script>
+    <script
+      type="text/JavaScript"
+      src=" https://MomentJS.com/downloads/moment.js"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              clifford: '#da373d',
+            }
+          }
+        }
+      }
+    </script>
   </head>
 
   <body>
@@ -49,7 +65,18 @@
         </div>
         <div id="map"></div>
       </div>
-      <hr>
+      <hr />
+
+      <div class="parent-container grid grid-cols-12 gap-x-6 p-4" >
+        <div class="bottom-left-container col-span-4" style="border: 2px black solid;">
+          <div class="bg-black h-10"></div>
+        </div>
+        <div class="bottom-right-container col-span-8 flex  items-center px-4 h-32" style="border: 2px black solid;">
+          <div id="speak" class="inline-block w-24 h-24 flex justify-center items-center bg-white ml-20" style="border-radius: 50%;"><img src="microphone.png" id="microphone" style="flex-shrink: 0;"></div>
+          <div id="place-img" class="inline-block h-24 bg-black w-32 ml-20"></div>
+          <div id="place-info" class="inline-block h-24 bg-black w-7/12 ml-10"></div>
+        </div>
+    </div>
     </div>
 
     <script>
