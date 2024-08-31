@@ -18,16 +18,15 @@
         theme: {
           extend: {
             colors: {
-              clifford: '#da373d',
-            }
-          }
-        }
-      }
+              clifford: "#da373d",
+            },
+          },
+        },
+      };
     </script>
   </head>
 
   <body>
-    <center><h1>Welcome to Soundway</h1></center>
     <div class="container">
       <div class="main">
         <div class="content">
@@ -67,16 +66,44 @@
       </div>
       <hr />
 
-      <div class="parent-container grid grid-cols-12 gap-x-6 p-4" >
-        <div class="bottom-left-container col-span-4" style="border: 2px black solid;">
-          <div class="bg-black h-10"></div>
+      <div class="parent-container grid grid-cols-12 gap-x-6 p-4">
+        <div class="bottom-left-container col-span-4 rounded-lg" style="border: 2px black solid">
+          <div id="date" class="relative left-3 mt-4 ml-10"></div>
+          <div class="flex items-center ml-10 inline-block">
+            <div class="text-black text-6xl mr-2 inline-block" id="time"></div>
+            <div id="meridian" class="inline-block"></div>
+            <img src="../assets/Rain Cloud.png" class="ml-10">
+          </div>
+          <div id="weather" class="relative left-72 bottom-12">
+          </div>
         </div>
-        <div class="bottom-right-container col-span-8 flex  items-center px-4 h-32" style="border: 2px black solid;">
-          <div id="speak" class="inline-block w-24 h-24 flex justify-center items-center bg-white ml-20" style="border-radius: 50%;"><img src="microphone.png" id="microphone" style="flex-shrink: 0;"></div>
-          <div id="place-img" class="inline-block h-24 bg-black w-32 ml-20"></div>
-          <div id="place-info" class="inline-block h-24 bg-black w-7/12 ml-10"></div>
+        <div
+          class="bottom-right-container col-span-8 flex items-center px-4 h-36 rounded-lg"
+          style="border: 2px black solid"
+        >
+          <form method="POST" action="/">
+            <div
+              id="speak"
+              class="inline-block w-24 h-24 flex justify-center items-center bg-white ml-20"
+              style="border-radius: 50%"
+            >
+              <img
+                src="microphone.png"
+                id="microphone"
+                style="flex-shrink: 0"
+              />
+            </div>
+          </form>
+          <div
+            id="place-img"
+            class="inline-block h-32 rounded border-2 border-black w-32 ml-20"
+          ></div>
+          <div
+            id="place-info"
+            class="inline-block h-32 rounded border-2 border-black w-7/12 ml-6"
+          ></div>
         </div>
-    </div>
+      </div>
     </div>
 
     <script>
@@ -99,6 +126,43 @@
         }),
       });
       olms.apply(map, styleJson);
+
+      var date = document.getElementById("date");
+      var time = document.getElementById("time");
+      var meridian = document.getElementById("meridian");
+
+      meridian.style.height = time.offsetHeight + "px";
+
+      let current_date = new Date();
+      year = current_date.getFullYear();
+      month = current_date.getMonth() + 1;
+      today = current_date.getDate();
+      date.innerHTML = today + "/" + month + "/" + year;
+
+      let d, s, m, h, nowTime;
+
+      function currentTime() {
+        d = new Date();
+        s = d.getSeconds();
+        m = d.getMinutes();
+        h = d.getHours() % 12;
+        if (s < 10) {
+          s = "0" + s;
+        } else if (m < 10) {
+          m = "0" + m;
+        } else if (h < 10) {
+          h = "0" + h;
+        }
+        if (d.getHours() < 12) {
+          meridian.innerHTML = "AM";
+        } else {
+          meridian.innerHTML = "PM";
+        }
+        nowTime = h + ":" + m + ":" + s;
+        time.innerHTML = nowTime;
+        // console.log(nowTime);
+      }
+      setInterval(currentTime, 1000);
     </script>
   </body>
 </html>
