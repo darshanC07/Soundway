@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Map</title>
-    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
     <script src="https://apis.mappls.com/advancedmaps/api/2e840ebd-3b94-4ce7-8edf-69e280f20c56/map_sdk?layer=vector&v=3.0"></script>
     <script src="https://apis.mappls.com/advancedmaps/api/2e840ebd-3b94-4ce7-8edf-69e280f20c56/map_sdk_plugins?v=3.0"></script>
     <script
@@ -37,16 +37,19 @@
 
       .main {
         background-color: #b7e1f7;
-        /* height: %; */
         display: flex;
-        justify-content: center;
+        width: calc(
+          100% - 20px
+        ); /* Full width minus 10px margin on each side */
+        margin: 0 10px;
+        gap: 10px;
       }
 
       .content {
         background-color: #309ed9;
-        height: 540px;
-        width: 37%;
-        /* margin-top: 10px; */
+        width: 30%;
+        height: 520px;
+        margin-top: 10px;
         border: 2px solid black;
         border-radius: 10px;
         padding: 20px;
@@ -58,10 +61,9 @@
       #map {
         border: 2px solid black;
         border-radius: 10px;
-        /* height: 540px; */
-        width: 60%;
-        /* margin-top: 10px; */
-        margin-left: 10px;
+        width: 70%;
+        height: 520px;
+        margin-top: 10px;
       }
 
       .search {
@@ -86,13 +88,13 @@
         padding: 0;
         display: flex;
         flex-direction: column;
-    
       }
 
-      .saved{
+      .saved {
         height: 130px;
         overflow-x: auto;
       }
+
       #local-text,
       #load {
         margin-bottom: 10px;
@@ -138,17 +140,17 @@
         border-radius: 10px;
       }
 
-      .content,
-      #map {
-        height: 90%;
-      }
       .saved-text {
         display: flex;
         justify-content: space-between;
       }
+
       #load {
         font-weight: normal;
         font-size: 1em;
+      }
+      .bottom-left-container , .bottom-right-container{
+        height: 130px;
       }
     </style>
   </head>
@@ -157,48 +159,50 @@
     <div class="container">
       <div class="main">
         <div class="content">
-          <div class="search">
-            <form>
-              <input id="search-tab" type="text" placeholder="Search" />
-            </form>
-            <img src="./assets/profile.jpg" id="profile-icon" />
-          </div>
-
-          <div class="local">
-            <h1 id="local-text">LOCAL</h1>
-            <div class="place">
-              <div id="loc-one"></div>
-              <h3 id="local-place">University Pune</h3>
+          <div class="data">
+            <div class="search">
+              <form>
+                <input id="search-tab" type="text" placeholder="Search" />
+              </form>
+              <img src="./assets/profile.jpg" id="profile-icon" />
             </div>
-            <div class="place">
-              <div id="loc-one"></div>
-              <h3 id="local-place">University Pune</h3>
-            </div>
-          </div>
 
-          <!-- <hr id="inner-hr" /> -->
-
-          <div class="savedContent">
-            <div class="saved-text">
-              <h1 id="local-text">SAVED</h1>
-              <!-- <div class="place">
+            <div class="local">
+              <h1 id="local-text">LOCAL</h1>
+              <div class="place">
                 <div id="loc-one"></div>
                 <h3 id="local-place">University Pune</h3>
-              </div> -->
-              <button id="load">Load More</button>
+              </div>
+              <div class="place">
+                <div id="loc-one"></div>
+                <h3 id="local-place">University Pune</h3>
+              </div>
             </div>
-            <div class="saved"></div>
+
+            <!-- <hr id="inner-hr" /> -->
+
+            <div class="savedContent">
+              <div class="saved-text">
+                <h1 id="local-text">SAVED</h1>
+                <!-- <div class="place">
+                  <div id="loc-one"></div>
+                  <h3 id="local-place">University Pune</h3>
+                </div> -->
+                <button id="load">Load More</button>
+              </div>
+              <div class="saved"></div>
+            </div>
           </div>
         </div>
         <div id="map"></div>
       </div>
 
       <!-- <hr /> -->
-      <div class="parent-container grid grid-cols-12 gap-x-6 p-4">
-        <div class="bottom-left-container col-span-4 p-4">
-          <div id="date" class="text-xl mb-4"></div>
+      <div class="parent-container grid grid-cols-12 gap-x-6 mt-2">
+        <div class="bottom-left-container col-span-4 p-2">
+          <div id="date" class="text-2xl"></div>
           <div class="flex items-center">
-            <div id="time" class="text-black text-6xl mr-2"></div>
+            <div id="time" class="text-black text-5xl mr-2"></div>
             <div id="meridian"></div>
             <img src="../assets/Rain Cloud.png" class="ml-10" />
           </div>
@@ -216,16 +220,15 @@
           </form>
           <div
             id="place-img"
-            class="h-32 w-32 ml-10 rounded border-2 border-black"
+            class="h-28 w-32 ml-10 rounded border-2 border-black"
           ></div>
           <div
             id="place-info"
-            class="h-32 w-7/12 ml-6 rounded border-2 border-black"
+            class="h-28 w-7/12 ml-6 rounded border-2 border-black"
           ></div>
         </div>
       </div>
     </div>
-
     <script type="module">
       let searchLoc = "chaphekar chowk";
       var currentLoc = {};
@@ -386,7 +389,9 @@
                   "<div id='loc-one'></div><h3 id='local-place'>" +
                   snapshot.val().placeName +
                   "</h3>";
-                document.getElementsByClassName("saved")[0].appendChild(new_place);
+                document
+                  .getElementsByClassName("saved")[0]
+                  .appendChild(new_place);
               } else {
                 alert("no data");
               }
