@@ -1,0 +1,6 @@
+site to add default map : https://about.mappls.com/api/web-sdk/vector-map-example/Maps/mappls-default-map
+
+first we need to get the access token to make api calls for different features, we have clientId and clientSecret in the console.
+we need to create a post request to https://outpost.mapmyindia.com/api/security/oauth/token with the parameter as grant_type=client_credentials  clientId and clientSecret. Its very easy to request through postman.
+
+https://youtu.be/76b9QzS3Z90?si=79gQRE7mD4rRpyjf

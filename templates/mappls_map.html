@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <title>Default Place Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Default Place Search" />
+
+    <script src="https://apis.mappls.com/advancedmaps/api/aa584346-3b9e-41ba-8563-fa7bec3bd1d1/map_sdk?layer=vector&v=3.0"></script>
+    <script src="https://apis.mappls.com/advancedmaps/api/aa584346-3b9e-41ba-8563-fa7bec3bd1d1/map_sdk_plugins?v=3.0"></script>
+    <style>
+      body {
+        margin: 0;
+      }
+      #map {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      #auto {
+        width: 300px;
+        position: absolute;
+        z-index: 999;
+        font-size: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        outline: none !important;
+        top: 5px;
+        border-radius: 10px;
+        margin: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <!-- <input
+      type="text"
+      id="auto"
+      name="auto"
+      class="search-outer form-control as-input"
+      placeholder="Search places or eLoc's..."
+      required=""
+      spellcheck="false"
+    /> -->
+    <form method="POST" action="/">
+      <button type="submit" name="microphone" id="auto" value="on">
+        Speak
+      </button>
+    </form>
+    <script>
+      let searchLoc = "{{command}}";
+      var map, marker;
+      map = new mappls.Map("map", {
+        center: [28.09, 78.3],
+        zoom: 5,
+      });
+      function map_search() {
+        var optional_config = {
+          /* location: [28.61, 77.23], */
+          region: "IND",
+          height: 300,
+          /* geolocation:true,
+                      pod:'City',
+                      bridge:true,
+                      tokenizeAddress:true,
+                      filter:'cop:9QGXAM',
+                      hyperLocal:true, //Default is false. Location parameter is mandatory to use this parameter.
+                      distance:true,
+                      width:300,
+                      height:300,
+                      clearButton:false, //to hide cross button, which is right side of search input
+                      blank_callback:function(){console.log("called when click on cross button or input value become blank");} */
+        };
+        new mappls.search(searchLoc, optional_config, callback);
+        function callback(data) {
+          alert("Data: " + JSON.stringify(data, null, 2));
+          console.log(data);
+          if (data) {
+            var dt = data[0];
+            if (!dt) return false;
+            var eloc = dt.eLoc;
+            var place = dt.placeName + ", " + dt.placeAddress;
+            /*Use elocMarker Plugin to add marker*/
+            if (marker) marker.remove();
+            mappls.pinMarker(
+              {
+                map: map,
+                pin: eloc,
+                popupHtml: place,
+                popupOptions: {
+                  openPopup: true,
+                },
+              },
+              function (data) {
+                marker = data;
+                marker.fitbounds();
+              }
+            );
+          }
+        }
+      }
+      if(searchLoc){
+        map_search();
+      }
+    </script>
+  </body>
+</html>
