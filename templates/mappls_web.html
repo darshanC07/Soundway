@@ -1,0 +1,402 @@
+<html>
+  <head>
+    <title>Map</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://apis.mappls.com/advancedmaps/api/2e840ebd-3b94-4ce7-8edf-69e280f20c56/map_sdk?layer=vector&v=3.0"></script>
+    <script src="https://apis.mappls.com/advancedmaps/api/2e840ebd-3b94-4ce7-8edf-69e280f20c56/map_sdk_plugins?v=3.0"></script>
+    <script
+      type="text/JavaScript"
+      src=" https://MomentJS.com/downloads/moment.js"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              clifford: "#da373d",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        margin: 0;
+        background-color: #b7e1f7;
+      }
+
+      .container {
+        background-color: #b7e1f7;
+        height: 100%;
+      }
+
+      hr {
+        color: black;
+      }
+
+      .main {
+        background-color: #b7e1f7;
+        /* height: %; */
+        display: flex;
+        justify-content: center;
+      }
+
+      .content {
+        background-color: #309ed9;
+        height: 540px;
+        width: 37%;
+        /* margin-top: 10px; */
+        border: 2px solid black;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      #map {
+        border: 2px solid black;
+        border-radius: 10px;
+        /* height: 540px; */
+        width: 60%;
+        /* margin-top: 10px; */
+        margin-left: 10px;
+      }
+
+      .search {
+        display: flex;
+        align-items: center;
+      }
+
+      #search-tab {
+        width: 440px;
+        height: 30px;
+      }
+
+      #profile-icon {
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+        margin-left: 13px;
+      }
+
+      .local,
+      .savedContent {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    
+      }
+
+      .saved{
+        height: 120px;
+        overflow-x: auto;
+      }
+      #local-text,
+      #load {
+        margin-bottom: 10px;
+        font-size: 1.2em;
+        font-weight: bold;
+        display: inline-block;
+      }
+
+      .place {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      #loc-one {
+        height: 70px;
+        width: 70px;
+        background-color: #fafafa;
+        border-radius: 10px;
+      }
+
+      #local-place {
+        font-size: 1em;
+        color: white;
+      }
+
+      #inner-hr {
+        width: 90%;
+      }
+
+      #microphone {
+        height: 80%;
+      }
+
+      #time,
+      #weather {
+        color: black;
+      }
+
+      .bottom-left-container,
+      .bottom-right-container {
+        border: 2px solid black;
+        border-radius: 10px;
+      }
+
+      .content,
+      #map {
+        height: 90%;
+      }
+      .saved-text {
+        display: flex;
+        justify-content: space-between;
+      }
+      #load {
+        font-weight: normal;
+        font-size: 1em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="main">
+        <div class="content">
+          <div class="search">
+            <form>
+              <input id="search-tab" type="text" placeholder="Search" />
+            </form>
+            <img src="./assets/profile.jpg" id="profile-icon" />
+          </div>
+
+          <div class="local">
+            <h1 id="local-text">LOCAL</h1>
+            <div class="place">
+              <div id="loc-one"></div>
+              <h3 id="local-place">University Pune</h3>
+            </div>
+            <div class="place">
+              <div id="loc-one"></div>
+              <h3 id="local-place">University Pune</h3>
+            </div>
+          </div>
+
+          <!-- <hr id="inner-hr" /> -->
+
+          <div class="savedContent">
+            <div class="saved-text">
+              <h1 id="local-text">SAVED</h1>
+              <!-- <div class="place">
+                <div id="loc-one"></div>
+                <h3 id="local-place">University Pune</h3>
+              </div> -->
+              <button id="load">Load More</button>
+            </div>
+            <div class="saved"></div>
+          </div>
+        </div>
+        <div id="map"></div>
+      </div>
+
+      <!-- <hr /> -->
+      <div class="parent-container grid grid-cols-12 gap-x-6 p-4">
+        <div class="bottom-left-container col-span-4 p-4">
+          <div id="date" class="text-xl mb-4"></div>
+          <div class="flex items-center">
+            <div id="time" class="text-black text-6xl mr-2"></div>
+            <div id="meridian"></div>
+            <img src="../assets/Rain Cloud.png" class="ml-10" />
+          </div>
+          <div id="weather" class="text-center mt-4"></div>
+        </div>
+
+        <div class="bottom-right-container col-span-8 flex items-center p-4">
+          <form method="POST" action="/">
+            <div
+              id="speak"
+              class="w-24 h-24 bg-white flex justify-center items-center rounded-full"
+            >
+              <img src="microphone.png" id="microphone" />
+            </div>
+          </form>
+          <div
+            id="place-img"
+            class="h-32 w-32 ml-10 rounded border-2 border-black"
+          ></div>
+          <div
+            id="place-info"
+            class="h-32 w-7/12 ml-6 rounded border-2 border-black"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      let searchLoc = "chaphekar chowk";
+      var currentLoc = {};
+      var map, marker;
+
+      //initializing map
+      map = new mappls.Map("map", {
+        center: [28.09, 78.3],
+        zoom: 5,
+      });
+
+      //this is the initialization of firebase database
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        child,
+        set,
+        remove,
+        update,
+        get,
+      } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"; //importing imp functions
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDjMdIiU-e4o2FKcRL-pnFnmFLLj2suFws",
+        authDomain: "soundway-7511d.firebaseapp.com",
+        projectId: "soundway-7511d",
+        storageBucket: "soundway-7511d.appspot.com",
+        messagingSenderId: "1003678701779",
+        appId: "1:1003678701779:web:7b448df7168273914c1c26",
+        measurementId: "G-HMVS5NN0ZV",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const db = getDatabase();
+
+      var alternateName,
+        eloc,
+        keywords,
+        placeAddress,
+        placeName,
+        suggester,
+        type;
+
+      //function to search location from searchLoc and also add marker
+      function map_search() {
+        var optional_config = {
+          /* location: [28.61, 77.23], */
+          region: "IND",
+          height: 300,
+          /* geolocation:true,
+                    pod:'City',
+                    bridge:true,
+                    tokenizeAddress:true,
+                    filter:'cop:9QGXAM',
+                    hyperLocal:true, //Default is false. Location parameter is mandatory to use this parameter.
+                    distance:true,
+                    width:300,
+                    height:300,
+                    clearButton:false, //to hide cross button, which is right side of search input
+                    blank_callback:function(){console.log("called when click on cross button or input value become blank");} */
+        };
+        new mappls.search(searchLoc, optional_config, callback);
+        function callback(data) {
+          alert("Data: " + JSON.stringify(data, null, 2));
+          if (data) {
+            var dt = data[0];
+            if (!dt) return false;
+            var eloc = dt.eLoc;
+            var place = dt.placeName + ", " + dt.placeAddress;
+
+            if (marker) marker.remove();
+            mappls.pinMarker(
+              {
+                map: map,
+                pin: eloc,
+                popupHtml: place,
+                popupOptions: {
+                  openPopup: true,
+                },
+              },
+              function (data) {
+                marker = data;
+                marker.fitbounds();
+              }
+            );
+            //getting the count of records present in the savedLoc folder, default its +1 means the array will have one empty object
+            const refDb = ref(db);
+            get(child(refDb, "savedLoc/")).then((snapshot) => {
+              var count = snapshot.val().length;
+              //adding data with latest count
+              set(ref(db, "savedLoc/" + count), {
+                alternateName: dt.alternateName,
+                eLoc: dt.eLoc,
+                keywords: dt.keywords,
+                placeAddress: dt.placeAddress,
+                placeName: dt.placeName,
+                suggester: dt.suggester,
+                type: dt.type,
+              })
+                .then(() => {
+                  alert("saved successfully.");
+                })
+                .catch((error) => {
+                  alert("unsuccessful");
+                });
+            });
+          }
+        }
+      }
+      // if (searchLoc != undefined) {
+      //   map_search();
+      // }
+
+      //storing data in database if the user commands to savae it
+      // if (currentLoc != undefined) {
+
+      // }
+
+      //for the date and time
+      const now = new Date();
+      var date_container = document.getElementById("date");
+      const date = now.toLocaleDateString();
+      date_container.innerHTML = date;
+
+      var meridian = document.getElementById("meridian");
+
+      meridian.style.height = time.offsetHeight + "px";
+
+      function displayDateTime() {
+        const now = new Date();
+        const time = now.toLocaleTimeString();
+        document.getElementById("time").innerHTML = time;
+      }
+
+      displayDateTime();
+      setInterval(displayDateTime, 1000);
+
+      //function to load new saved places
+      function loadSavedPlaces(db) {
+        const refDb = ref(db);
+        get(child(refDb, "savedLoc/")).then((snapshot) => {
+          var count = snapshot.val().length;
+
+          for (let i = 1; i < count; i++) {
+            get(child(refDb, "savedLoc/" + i)).then((snapshot) => {
+              if (snapshot.exists) {
+                console.log(snapshot.val());
+                // s_alternateName = snapshot.val().alternateName;
+                // s_placeAddress = snapshot.val().placeAddress;
+                // s_placeName = snapshot.val().placeName;
+                // s_type = snapshot.val().type;
+                let new_place = document.createElement("div");
+                new_place.className = "place";
+                new_place.innerHTML =
+                  "<div id='loc-one'></div><h3 id='local-place'>" +
+                  snapshot.val().placeName +
+                  "</h3>";
+                document.getElementsByClassName("saved")[0].appendChild(new_place);
+              } else {
+                alert("no data");
+              }
+            });
+          }
+        });
+      }
+      document.getElementById("load").addEventListener("click", function () {
+        loadSavedPlaces(db);
+      });
+    </script>
+  </body>
+</html>
