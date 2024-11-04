@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    background-color: #b7e1f7;
+  }
+
+  .container {
+    background-color: #b7e1f7;
+    height: 100%;
+  }
+
+  hr {
+    color: black;
+  }
+
+  .main {
+    background-color: #b7e1f7;
+    display: flex;
+    width: calc(
+      100% - 20px
+    ); /* Full width minus 10px margin on each side */
+    margin: 0 10px;
+    gap: 10px;
+  }
+
+  .content {
+    background-color: #309ed9;
+    width: 30%;
+    height: 520px;
+    margin-top: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #map {
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 70%;
+    height: 520px;
+    margin-top: 10px;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+  }
+
+  #search-tab {
+    width: 440px;
+    height: 30px;
+  }
+
+  #profile-icon {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    margin-left: 13px;
+  }
+
+  .local,
+  .savedContent {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .saved {
+    height: 200px;
+    overflow-x: auto;
+  }
+
+  #local-text,
+  #load {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .place {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 4px;
+  }
+
+  #loc-one {
+    height: 70px;
+    width: 70px;
+    background-color: #fafafa;
+    border-radius: 10px;
+  }
+
+  #local-place {
+    font-size: 1em;
+    color: white;
+  }
+
+  #inner-hr {
+    width: 90%;
+  }
+
+  #microphone {
+    height: 80%;
+  }
+
+  #time,
+  #weather {
+    color: black;
+  }
+
+  .bottom-left-container,
+  .bottom-right-container {
+    border: 2px solid black;
+    border-radius: 10px;
+  }
+
+  .saved-text {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #load {
+    font-weight: normal;
+    font-size: 1em;
+  }
+  .bottom-left-container , .bottom-right-container{
+    height: 130px;
+  }
